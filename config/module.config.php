@@ -55,8 +55,8 @@ return [
                 'logJsErrors' => false,
                 'validRoutes' => [
                     /* Regex for the start of the path */
-//                    '/(\A)\/vendor\/.*/',
-//                    '/(\A)\/modules\/.*/',
+                    // '/(\A)\/vendor\/.*/',
+                    // '/(\A)\/modules\/.*/',
                 ],
             ],
             /**
@@ -64,23 +64,16 @@ return [
              */
             'jsLoggers' => [
                 /* Use JiraLogger service *
-                'Reliv\RcmJira\Log\JiraLogger',
-                /* */
-                /* Use AxosoftLogger service*/
-//                'Reliv\RcmAxosoft\Log\AxosoftLogger',
-                /*'RcmErrorHandler\Log\VarDumpErrorLogger'
+                /* 'Reliv\RcmJira\Log\JiraLogger',
+                /* Use AxosoftLogger service */
+                /* 'Reliv\RcmAxosoft\Log\AxosoftLogger',
+                /* General Loggers */
+                /* 'RcmErrorHandler\Log\PhpErrorLogger'
+                /* 'RcmErrorHandler\Log\VarDumpErrorLogger'
                 /* */
             ],
         ],
 
-//        'jsLoggers' => [
-//            /* Use JiraLogger service *
-//            'Reliv\RcmJira\Log\JiraLogger',
-//            /* */
-//            /* Use AxosoftLogger service*
-//            'Reliv\RcmAxosoft\Log\AxosoftLogger',
-//            /* */
-//        ],
     ],
     'service_manager' => [
         'factories' => [
@@ -90,6 +83,8 @@ return [
         'invokables' => [
             'RcmErrorHandler\Log\VarDumpErrorLogger'
             => 'RcmErrorHandler\Log\VarDumpErrorLogger',
+            'RcmErrorHandler\Log\PhpErrorLogger'
+            => 'RcmErrorHandler\Log\PhpErrorLogger',
         ],
     ],
     'controllers' => [
