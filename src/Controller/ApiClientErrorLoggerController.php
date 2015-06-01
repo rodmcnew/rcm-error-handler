@@ -32,7 +32,7 @@ class ApiClientErrorLoggerController extends AbstractRestfulController
         $serviceLocator = $this->getServiceLocator();
         $config = $serviceLocator->get('\RcmErrorHandler\Config');
 
-        $configs = $config->get('jsLoggers', []);
+        $configs = $config->get('jsLogConfig', []);
 
         if (empty($configs)) {
             return [];
@@ -45,17 +45,16 @@ class ApiClientErrorLoggerController extends AbstractRestfulController
      * doLog
      *
      * @param string $message
-     * @param array  $extra
+     * @param array $extra
      *
      * @return void
      */
     protected function doLog($message, $extra = [])
     {
         $loggerConfig = $this->getLoggerConfig();
-
         $serviceLocator = $this->getServiceLocator();
 
-        foreach ($loggerConfig as $serviceName) {
+        foreach ($loggerConfig['jsLoggers'] as $serviceName) {
             if ($serviceLocator->has($serviceName)) {
                 /** @var \Zend\Log\LoggerInterface $logger */
                 $logger = $serviceLocator->get($serviceName);
@@ -67,9 +66,9 @@ class ApiClientErrorLoggerController extends AbstractRestfulController
     /**
      * getDataValue
      *
-     * @param array  $data
+     * @param array $data
      * @param string $key
-     * @param null   $default
+     * @param null $default
      *
      * @return null
      */
@@ -93,7 +92,7 @@ class ApiClientErrorLoggerController extends AbstractRestfulController
     {
         $message = $this->getDataValue($data, 'type', 'ClientError') . ' - ' .
             $this->getDataValue($data, 'message', '(no message)') . ' - ' .
-            $this->getDataValue($data, 'file', 'UNKOWN FILE');
+            $this->getDataValue($data, 'file', 'UNKNOWN FILE');
 
         return $message;
     }
@@ -115,10 +114,53 @@ class ApiClientErrorLoggerController extends AbstractRestfulController
      */
     public function create($data)
     {
-        $this->doLog($this->prepareMessage($data), $data);
+        if ($this->isValidRoute($data) && $this->canLogErrors()) {
+            $this->doLog($this->prepareMessage($data), $data);
+        }
 
         $view = new JsonModel([]);
 
         return $view;
     }
+
+    /**
+     * isValidRoute
+     *
+     * @param mixed $data
+     *
+     *  $data = [
+     *   'message' => 'some message',
+     *   'file' => '/some/url',
+     *   'line' => 123,
+     *   'description' => 'Some Description',
+     *   'trace' => '1# Some trace string'
+     *   'type' => 'ClientError'
+     *  ];
+     * @return boolean
+     */
+    public function isValidRoute($data)
+    {
+        $routeUrl = $this->getDataValue($data, 'file');
+        $loggerConfig = $this->getLoggerConfig();
+
+        foreach ($loggerConfig['options']['validRoutes'] as $routes) {
+           /* add routes to match in config using regex  */
+            if (preg_match($routes, $routeUrl) != 0) {
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * canLogErrors
+     *
+     * @return boolean
+     */
+    public function canLogErrors()
+    {
+        $loggerConfig = $this->getLoggerConfig();
+        return $loggerConfig['options']['logJsErrors'];
+    }
+
 }
