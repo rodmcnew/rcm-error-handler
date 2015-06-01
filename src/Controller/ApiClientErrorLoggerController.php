@@ -162,5 +162,4 @@ class ApiClientErrorLoggerController extends AbstractRestfulController
         $loggerConfig = $this->getLoggerConfig();
         return $loggerConfig['options']['logJsErrors'];
     }
-
 }
