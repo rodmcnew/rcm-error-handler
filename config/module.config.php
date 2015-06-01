@@ -47,22 +47,50 @@ return [
             /* */
         ],
         /**
-         * Define which loggers to use for JS logging
+         * Define if logging is turned on.
+         * Define the allowed routes to be logged
          */
-        'jsLoggers' => [
-            /* Use JiraLogger service *
-            'Reliv\RcmJira\Log\JiraLogger',
-            /* */
-            /* Use AxosoftLogger service*
-            'Reliv\RcmAxosoft\Log\AxosoftLogger',
-            /* */
+        'jsLogConfig' => [
+            'options' => [
+                'logJsErrors' => false,
+                'validRoutes' => [
+                    /* Regex for the start of the path */
+//                    '/(\A)\/vendor\/.*/',
+//                    '/(\A)\/modules\/.*/',
+                ],
+            ],
+            /**
+             * Define which loggers to use for JS logging
+             */
+            'jsLoggers' => [
+                /* Use JiraLogger service *
+                'Reliv\RcmJira\Log\JiraLogger',
+                /* */
+                /* Use AxosoftLogger service*/
+//                'Reliv\RcmAxosoft\Log\AxosoftLogger',
+                /*'RcmErrorHandler\Log\VarDumpErrorLogger'
+                /* */
+            ],
         ],
+
+//        'jsLoggers' => [
+//            /* Use JiraLogger service *
+//            'Reliv\RcmJira\Log\JiraLogger',
+//            /* */
+//            /* Use AxosoftLogger service*
+//            'Reliv\RcmAxosoft\Log\AxosoftLogger',
+//            /* */
+//        ],
     ],
     'service_manager' => [
         'factories' => [
             '\RcmErrorHandler\Config' => '\RcmErrorHandler\Factory\RcmErrorHandlerConfigFactory',
             '\RcmErrorHandler\Log\LoggerErrorListener' => '\RcmErrorHandler\Log\Factory\LoggerErrorListenerFactory',
-        ]
+        ],
+        'invokables' => [
+            'RcmErrorHandler\Log\VarDumpErrorLogger'
+            => 'RcmErrorHandler\Log\VarDumpErrorLogger',
+        ],
     ],
     'controllers' => [
         'invokables' => [
