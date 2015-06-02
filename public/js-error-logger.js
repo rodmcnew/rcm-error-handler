@@ -1,3 +1,10 @@
+/**
+ * js-error-logger
+ * @param message
+ * @param file
+ * @param line
+ * @param column
+ */
 window.onerror = function (message, file, line, column) {
     // Supports IE7+, Firefox, Chrome, Opera, Safari
     if (window.XMLHttpRequest) {

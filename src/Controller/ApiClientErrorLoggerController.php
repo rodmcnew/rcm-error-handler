@@ -45,7 +45,7 @@ class ApiClientErrorLoggerController extends AbstractRestfulController
      * doLog
      *
      * @param string $message
-     * @param array $extra
+     * @param array  $extra
      *
      * @return void
      */
@@ -66,9 +66,9 @@ class ApiClientErrorLoggerController extends AbstractRestfulController
     /**
      * getDataValue
      *
-     * @param array $data
+     * @param array  $data
      * @param string $key
-     * @param null $default
+     * @param null   $default
      *
      * @return null
      */
@@ -101,14 +101,14 @@ class ApiClientErrorLoggerController extends AbstractRestfulController
      * create
      *
      * @param mixed $data
-     *  $data = [
+     *   $data = [
      *   'message' => 'some message',
      *   'file' => '/some/url',
      *   'line' => 123,
      *   'description' => 'Some Description',
      *   'trace' => '1# Some trace string'
      *   'type' => 'ClientError'
-     *  ];
+     *   ];
      *
      * @return JsonModel
      */
@@ -136,19 +136,29 @@ class ApiClientErrorLoggerController extends AbstractRestfulController
      *   'trace' => '1# Some trace string'
      *   'type' => 'ClientError'
      *  ];
+     *
      * @return boolean
      */
     public function isValidRoute($data)
     {
         $routeUrl = $this->getDataValue($data, 'file');
+
         $loggerConfig = $this->getLoggerConfig();
 
-        foreach ($loggerConfig['options']['validRoutes'] as $routes) {
-           /* add routes to match in config using regex  */
+        $validRoutes = $loggerConfig['options']['validRoutes'];
+
+        if (empty($validRoutes)) {
+            // default is all
+            return true;
+        }
+
+        foreach ($validRoutes as $routes) {
+            /* add routes to match in config using regex  */
             if (preg_match($routes, $routeUrl) != 0) {
-                    return true;
+                return true;
             }
         }
+
         return false;
     }
 
@@ -160,6 +170,7 @@ class ApiClientErrorLoggerController extends AbstractRestfulController
     public function canLogErrors()
     {
         $loggerConfig = $this->getLoggerConfig();
+
         return $loggerConfig['options']['logJsErrors'];
     }
 }
