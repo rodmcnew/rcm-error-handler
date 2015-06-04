@@ -87,12 +87,10 @@ class Handler
 
         $formatConfig = $this->config->get('format');
 
-        if ($formatConfig) {
-            if (isset($formatConfig[$format])) {
-                return new $formatConfig[$format]['class'](
-                    new Config($formatConfig[$format]['options'])
-                );
-            }
+        if (!empty($formatConfig) && isset($formatConfig[$format])) {
+            return new $formatConfig[$format]['class'](
+                new Config($formatConfig[$format]['options'])
+            );
         }
 
         return null;
@@ -108,9 +106,15 @@ class Handler
         $headers = '';
         foreach ($_SERVER as $name => $value) {
             if (substr($name, 0, 5) == 'HTTP_') {
-                $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+                $headers[str_replace(
+                    ' ',
+                    '-',
+                    ucwords(strtolower(str_replace('_', ' ', substr($name, 5))))
+                )]
+                    = $value;
             }
         }
+
         return $headers;
     }
 
@@ -322,9 +326,11 @@ class Handler
         if (!empty($formatter)) {
             if ($this->canDisplayErrors()) {
                 $formatter->displayString($error, $this->event);
+
                 return true;
             } else {
                 $formatter->displayBasicString($error, $this->event);
+
                 return true;
             }
         }
