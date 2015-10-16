@@ -1,5 +1,5 @@
 {
-  "name": "reliv/rcm-error-handler",
+  "name": "rcm/error-handler",
   "description": "Error and Exception override and observers.",
   "type": "library",
   "license": "BSD-3-Clause",
