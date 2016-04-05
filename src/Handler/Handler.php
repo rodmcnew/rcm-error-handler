@@ -146,7 +146,7 @@ class Handler
      * @param int    $errline
      * @param array  $errcontext
      *
-     * @return void
+     * @return bool
      */
     public function handleError(
         $errno = 0,
@@ -299,7 +299,7 @@ class Handler
      *
      * @param \Exception $exception
      *
-     * @return void
+     * @return bool
      */
     public function handleException(
         \Exception $exception
@@ -398,7 +398,7 @@ class Handler
      *
      * @param \Zend\Mvc\MvcEvent $event
      *
-     * @return void
+     * @return bool
      */
     public function handleEventException(
         \Zend\Mvc\MvcEvent $event
@@ -424,7 +424,7 @@ class Handler
      *
      * @return void
      */
-    protected function notify($event, $error)
+    protected function notify($event, GenericError $error)
     {
         // Keep us from reporting suppressed errors
         if (!$this->canReportErrors($error->getSeverity())) {

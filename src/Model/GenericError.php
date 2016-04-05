@@ -5,8 +5,6 @@ namespace RcmErrorHandler\Model;
 /**
  * Class GenericError
  *
- * LongDescHere
- *
  * PHP version 5
  *
  * @category  Reliv
@@ -17,7 +15,7 @@ namespace RcmErrorHandler\Model;
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-class GenericError
+class GenericError implements GenericErrorInterface
 {
     /**
      * string DEFAULT_TYPE
@@ -63,6 +61,13 @@ class GenericError
      * @var array | null $trace
      */
     protected $trace = null;
+
+    /**
+     * These are extra details that might be helpful for troubleshooting
+     *
+     * @var array
+     */
+    protected $details = [];
 
     /**
      * @param              $message
@@ -185,12 +190,12 @@ class GenericError
     /**
      * getErrors
      *
-     * @param GenericError $error
-     * @param array        $errors
+     * @param GenericErrorInterface $error
+     * @param array                 $errors
      *
      * @return array
      */
-    public function getErrors(GenericError $error, $errors = [])
+    public function getErrors(GenericErrorInterface $error, $errors = [])
     {
         array_unshift($errors, $error);
 
@@ -222,5 +227,27 @@ class GenericError
         }
 
         return $this->trace;
+    }
+
+    /**
+     * addDetails
+     *
+     * @param array $details
+     *
+     * @return void
+     */
+    public function addDetails(array $details)
+    {
+        $this->details = array_merge($this->details, $details);
+    }
+
+    /**
+     * getDetails
+     *
+     * @return array
+     */
+    public function getDetails()
+    {
+        return $this->details;
     }
 }
