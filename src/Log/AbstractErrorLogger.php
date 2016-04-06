@@ -256,7 +256,8 @@ abstract class AbstractErrorLogger implements LoggerInterface
         $includeServerDump = $this->getOption('includeServerDump', false);
 
         if (isset($_SERVER) && $includeServerDump) {
-            $description .= $lineBreak . $this->prepareArray(
+            $description .= $lineBreak .
+                $this->prepareArray(
                     'Server',
                     $_SERVER,
                     $lineBreak
@@ -266,7 +267,8 @@ abstract class AbstractErrorLogger implements LoggerInterface
         $includeSessionVars = $this->getOption('includeSessionVars', null);
 
         if (isset($_SESSION) && !empty($includeSessionVars)) {
-            $description .= $lineBreak . $this->prepareSession(
+            $description .= $lineBreak .
+                $this->prepareSession(
                     $includeSessionVars,
                     $lineBreak
                 );

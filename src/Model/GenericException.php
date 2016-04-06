@@ -38,5 +38,4 @@ class GenericException extends GenericError implements GenericExceptionInterface
     {
         return $this->exception;
     }
-
 }

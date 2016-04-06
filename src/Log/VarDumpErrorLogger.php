@@ -39,11 +39,11 @@ class VarDumpErrorLogger extends AbstractErrorLogger
         var_dump($priority);
         var_dump('message:');
         var_dump($message);
-        if(isset($extra['trace'])) {
+        if (isset($extra['trace'])) {
             var_dump('trace:');
             var_dump($extra['trace']);
         }
-        if(isset($extra['exception'])) {
+        if (isset($extra['exception'])) {
             var_dump($this->prepareException($extra['exception']));
         }
         echo '</pre>';
