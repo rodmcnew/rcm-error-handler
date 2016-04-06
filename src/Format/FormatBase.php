@@ -1,29 +1,12 @@
 <?php
-/**
- * FormatBase.php
- *
- * LongDescHere
- *
- * PHP version 5
- *
- * @category  Reliv
- * @package   RcmErrorHandler\Format
- * @author    James Jervis <jjervis@relivinc.com>
- * @copyright 2014 Reliv International
- * @license   License.txt New BSD License
- * @version   GIT: <git_id>
- * @link      https://github.com/reliv
- */
 
 namespace RcmErrorHandler\Format;
 
 use RcmErrorHandler\Model\Config;
-use RcmErrorHandler\Model\GenericError;
+use RcmErrorHandler\Model\GenericErrorInterface;
 
 /**
  * Class FormatBase
- *
- * LongDescHere
  *
  * PHP version 5
  *
@@ -61,29 +44,30 @@ class FormatBase implements FormatInterface
     /**
      * getString
      *
-     * @param GenericError $error
+     * @param GenericErrorInterface $error
      *
      * @return mixed
      */
     public function getString(
-        GenericError $error
+        GenericErrorInterface $error
     ) {
         $output = $error->getType() . ': ' .
             $error->getMessage() . ' ' .
             'File: ' . $error->getFile() . ' ' .
             'Line: ' . $error->getLine() . "\n";
+
         return $output;
     }
 
     /**
      * getBasicString - no details exposed - public friendly
      *
-     * @param GenericError $error
+     * @param GenericErrorInterface $error
      *
      * @return mixed
      */
     public function getBasicString(
-        GenericError $error
+        GenericErrorInterface $error
     ) {
         return 'An error occurred during execution; please try again later.';
     }
@@ -91,14 +75,14 @@ class FormatBase implements FormatInterface
     /**
      * getTraceString
      *
-     * @param GenericError $error
-     * @param int          $options
-     * @param int          $limit
+     * @param GenericErrorInterface $error
+     * @param int                   $options
+     * @param int                   $limit
      *
      * @return mixed|string
      */
     public function getTraceString(
-        GenericError $error,
+        GenericErrorInterface $error,
         $options = 3,
         $limit = 0
     ) {
@@ -113,7 +97,8 @@ class FormatBase implements FormatInterface
                 continue;
             }
 
-            $file = (isset($call['file']) ? $this->cleanDirPath($call['file']) : '?');
+            $file = (isset($call['file']) ? $this->cleanDirPath($call['file'])
+                : '?');
             $line = (isset($call['line']) ? $call['line'] : '?');
             $class = (isset($call['class']) ? $call['class'] : '');
             $function = (isset($call['function']) ? $call['function'] : '');
@@ -142,8 +127,8 @@ class FormatBase implements FormatInterface
 
             $output .= '# ' . ($i + 1) . ' ' .
                 ': ' . $object . $function . '(' . $argStr . ') ' . "\n" .
-                ' -- File: ' . $file  . "\n" .
-                ' -- Line: '. $line . "\n";
+                ' -- File: ' . $file . "\n" .
+                ' -- Line: ' . $line . "\n";
         }
 
         return $output;
@@ -152,39 +137,45 @@ class FormatBase implements FormatInterface
     /**
      * displayString
      *
-     * @param GenericError       $error
-     * @param \Zend\Mvc\MvcEvent $event
+     * @param GenericErrorInterface $error
+     * @param \Zend\Mvc\MvcEvent    $event
      *
      * @return void
      */
-    public function displayString(GenericError $error, \Zend\Mvc\MvcEvent $event)
-    {
+    public function displayString(
+        GenericErrorInterface $error,
+        \Zend\Mvc\MvcEvent $event
+    ) {
         echo $this->getString($error);
     }
 
     /**
      * displayBasicString
      *
-     * @param GenericError       $error
-     * @param \Zend\Mvc\MvcEvent $event
+     * @param GenericErrorInterface $error
+     * @param \Zend\Mvc\MvcEvent    $event
      *
      * @return void
      */
-    public function displayBasicString(GenericError $error, \Zend\Mvc\MvcEvent $event)
-    {
+    public function displayBasicString(
+        GenericErrorInterface $error,
+        \Zend\Mvc\MvcEvent $event
+    ) {
         echo $this->getBasicString($error);
     }
 
     /**
      * displayTraceString
      *
-     * @param GenericError       $error
-     * @param \Zend\Mvc\MvcEvent $event
+     * @param GenericErrorInterface $error
+     * @param \Zend\Mvc\MvcEvent    $event
      *
      * @return void
      */
-    public function displayTraceString(GenericError $error, \Zend\Mvc\MvcEvent $event)
-    {
+    public function displayTraceString(
+        GenericErrorInterface $error,
+        \Zend\Mvc\MvcEvent $event
+    ) {
         echo $this->getTraceString($error);
     }
 

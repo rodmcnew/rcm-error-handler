@@ -5,8 +5,6 @@ namespace RcmErrorHandler\Model;
 /**
  * Class Config
  *
- * LongDescHere
- *
  * PHP version 5
  *
  * @category  Reliv
@@ -19,7 +17,6 @@ namespace RcmErrorHandler\Model;
  */
 class Config
 {
-
     /**
      * @var array $configArray
      */

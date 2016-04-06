@@ -2,21 +2,16 @@
 
 namespace RcmErrorHandler\Format;
 
-use RcmErrorHandler\Handler\ErrorHandler;
-use RcmErrorHandler\Handler\ExceptionHandler;
-use RcmErrorHandler\Handler\HandlerInterface;
 use RcmErrorHandler\Model\BasicErrorResponse;
-use RcmErrorHandler\Model\DetailError;
 use RcmErrorHandler\Model\DetailErrorResponse;
-use RcmErrorHandler\Model\Error;
-use RcmErrorHandler\Model\GenericError;
+use RcmErrorHandler\Model\GenericErrorInterface;
 use Zend\Http\Response;
 use Zend\View\Model\JsonModel;
 
 /**
  * Class FormatJson
  *
- * LongDescHere
+ *
  *
  * PHP version 5
  *
@@ -33,11 +28,11 @@ class FormatJson extends FormatBase
     /**
      * getString
      *
-     * @param GenericError $error
+     * @param GenericErrorInterface $error
      *
      * @return mixed
      */
-    public function getString(GenericError $error)
+    public function getString(GenericErrorInterface $error)
     {
         $firstError = $error->getFirst();
 
@@ -55,11 +50,11 @@ class FormatJson extends FormatBase
     /**
      * getBasicString - no details exposed - public friendly
      *
-     * @param GenericError $error
+     * @param GenericErrorInterface $error
      *
      * @return mixed
      */
-    public function getBasicString(GenericError $error)
+    public function getBasicString(GenericErrorInterface $error)
     {
         $firstError = $error->getFirst();
 
@@ -74,13 +69,13 @@ class FormatJson extends FormatBase
     /**
      * getTraceString
      *
-     * @param GenericError $error
+     * @param GenericErrorInterface $error
      * @param int          $options
      * @param int          $limit
      *
      * @return mixed
      */
-    public function getTraceString(GenericError $error, $options = 3, $limit = 0)
+    public function getTraceString(GenericErrorInterface $error, $options = 3, $limit = 0)
     {
         $firstError = $error->getFirst();
         $data = $firstError->getTrace();
@@ -92,12 +87,12 @@ class FormatJson extends FormatBase
      * @codeCoverageIgnore
      * displayString
      *
-     * @param GenericError       $error
+     * @param GenericErrorInterface       $error
      * @param \Zend\Mvc\MvcEvent $event
      *
      * @return void
      */
-    public function displayString(GenericError $error, \Zend\Mvc\MvcEvent $event)
+    public function displayString(GenericErrorInterface $error, \Zend\Mvc\MvcEvent $event)
     {
         $this->display($this->getString($error), $event);
     }
@@ -106,12 +101,12 @@ class FormatJson extends FormatBase
      * @codeCoverageIgnore
      * displayBasicString
      *
-     * @param GenericError       $error
+     * @param GenericErrorInterface       $error
      * @param \Zend\Mvc\MvcEvent $event
      *
      * @return void
      */
-    public function displayBasicString(GenericError $error, \Zend\Mvc\MvcEvent $event)
+    public function displayBasicString(GenericErrorInterface $error, \Zend\Mvc\MvcEvent $event)
     {
         $this->display($this->getBasicString($error), $event);
     }
@@ -120,12 +115,12 @@ class FormatJson extends FormatBase
      * @codeCoverageIgnore
      * displayTraceString
      *
-     * @param GenericError       $error
+     * @param GenericErrorInterface       $error
      * @param \Zend\Mvc\MvcEvent $event
      *
      * @return void
      */
-    public function displayTraceString(GenericError $error, \Zend\Mvc\MvcEvent $event)
+    public function displayTraceString(GenericErrorInterface $error, \Zend\Mvc\MvcEvent $event)
     {
         $this->display($this->getTraceString($error), $event);
     }

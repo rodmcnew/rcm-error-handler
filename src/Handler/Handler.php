@@ -4,12 +4,14 @@ namespace RcmErrorHandler\Handler;
 
 use RcmErrorHandler\Model\Config;
 use RcmErrorHandler\Model\GenericError;
+use RcmErrorHandler\Model\GenericErrorInterface;
+use RcmErrorHandler\Model\GenericException;
 
 /**
  * @codeCoverageIgnore - This has too many low level bits to test
  * Class HandlerAdapter
  *
- * LongDescHere
+ *
  *
  * PHP version 5
  *
@@ -146,7 +148,7 @@ class Handler
      * @param int    $errline
      * @param array  $errcontext
      *
-     * @return void
+     * @return bool
      */
     public function handleError(
         $errno = 0,
@@ -179,7 +181,8 @@ class Handler
             debug_backtrace(
                 DEBUG_BACKTRACE_PROVIDE_OBJECT | DEBUG_BACKTRACE_IGNORE_ARGS,
                 25
-            )
+            ),
+            $errcontext
         );
 
         $this->notify(self::EVENT_ERROR, $error);
@@ -190,11 +193,11 @@ class Handler
     /**
      * throwError
      *
-     * @param GenericError $error
+     * @param GenericErrorInterface $error
      *
      * @return bool
      */
-    public function throwError(GenericError $error)
+    public function throwError(GenericErrorInterface $error)
     {
         /** @var \RcmErrorHandler\Format\FormatInterface $formatter */
         $formatter = $this->getFormatter();
@@ -241,7 +244,7 @@ class Handler
         if (isset($this->errorMap[$errno])) {
             $type .= $this->errorMap[$errno];
         } else {
-            $type .= GenericError::DEFAULT_TYPE;
+            $type .= GenericErrorInterface::DEFAULT_TYPE;
         }
 
         return $type;
@@ -284,14 +287,13 @@ class Handler
      *
      * @return bool
      */
-    public function isFatalError()
+    public function isFatalError($errno)
     {
         $reportingLevel = (E_ERROR | E_PARSE | E_CORE_ERROR | E_CORE_WARNING
             | E_COMPILE_ERROR | E_COMPILE_WARNING | E_STRICT);
 
-        return ($reportingLevel & $this->errno);
+        return ($reportingLevel & $errno);
     }
-
 
     /**** EXCEPTION ****/
     /**
@@ -299,7 +301,7 @@ class Handler
      *
      * @param \Exception $exception
      *
-     * @return void
+     * @return bool
      */
     public function handleException(
         \Exception $exception
@@ -314,11 +316,11 @@ class Handler
     /**
      * throwException
      *
-     * @param GenericError $error
+     * @param GenericErrorInterface $error
      *
      * @return bool
      */
-    public function throwException(GenericError $error, \Exception $exception)
+    public function throwException(GenericErrorInterface $error, \Exception $exception)
     {
         /** @var \RcmErrorHandler\Format\FormatInterface $formatter */
         $formatter = $this->getFormatter();
@@ -335,7 +337,7 @@ class Handler
             }
         }
 
-        $this->throwDefaultException($exception);
+        return $this->throwDefaultException($exception);
     }
 
     /**
@@ -368,7 +370,7 @@ class Handler
      *
      * @param \Exception $exception
      *
-     * @return GenericError
+     * @return GenericErrorInterface
      */
     protected function buildErrorFromException(\Exception $exception)
     {
@@ -378,7 +380,7 @@ class Handler
             $prev = $this->buildErrorFromException($prev);
         }
 
-        $error = new GenericError(
+        $error = new GenericException(
             $exception->getMessage(),
             $exception->getCode(),
             E_ERROR,
@@ -389,6 +391,8 @@ class Handler
             $exception->getTrace()
         );
 
+        $error->setException($exception);
+
         return $error;
     }
 
@@ -398,7 +402,7 @@ class Handler
      *
      * @param \Zend\Mvc\MvcEvent $event
      *
-     * @return void
+     * @return bool
      */
     public function handleEventException(
         \Zend\Mvc\MvcEvent $event
@@ -420,11 +424,11 @@ class Handler
      * notify
      *
      * @param string       $event
-     * @param GenericError $error
+     * @param GenericErrorInterface $error
      *
      * @return void
      */
-    protected function notify($event, $error)
+    protected function notify($event, GenericErrorInterface $error)
     {
         // Keep us from reporting suppressed errors
         if (!$this->canReportErrors($error->getSeverity())) {

@@ -5,8 +5,6 @@ namespace RcmErrorHandler\Exception;
 /**
  * Class DeprecatedException
  *
- * LongDescHere
- *
  * PHP version 5
  *
  * @category  Reliv

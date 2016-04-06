@@ -5,8 +5,6 @@ namespace RcmErrorHandler\Model;
 /**
  * Class GenericError
  *
- * LongDescHere
- *
  * PHP version 5
  *
  * @category  Reliv
@@ -17,13 +15,8 @@ namespace RcmErrorHandler\Model;
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-class GenericError
+class GenericError implements GenericErrorInterface
 {
-    /**
-     * string DEFAULT_TYPE
-     */
-    const DEFAULT_TYPE = 'Unknown';
-
     /**
      * @var string $message
      */
@@ -52,10 +45,10 @@ class GenericError
     /**
      * @var string
      */
-    protected $type = GenericError::DEFAULT_TYPE;
+    protected $type = GenericErrorInterface::DEFAULT_TYPE;
 
     /**
-     * @var null | GenericError
+     * @var null | GenericErrorInterface
      */
     protected $previous = null;
 
@@ -63,6 +56,13 @@ class GenericError
      * @var array | null $trace
      */
     protected $trace = null;
+
+    /**
+     * These are extra variables and details helpful for troubleshooting
+     *
+     * @var array
+     */
+    protected $context = [];
 
     /**
      * @param              $message
@@ -80,14 +80,15 @@ class GenericError
         $severity = E_ERROR,
         $file = __FILE__,
         $line = __LINE__,
-        $type = GenericError::DEFAULT_TYPE,
+        $type = GenericErrorInterface::DEFAULT_TYPE,
         GenericError $previous = null,
-        $trace = null
+        $trace = null,
+        $context = []
     ) {
 
         // @todo Create setters for this logic
         if (!is_string($type)) {
-            $type = GenericError::DEFAULT_TYPE;
+            $type = GenericErrorInterface::DEFAULT_TYPE;
         }
 
         $this->message = $message;
@@ -98,6 +99,7 @@ class GenericError
         $this->type = $type;
         $this->previous = $previous;
         $this->trace = $trace;
+        $this->addContext($context);
     }
 
     /**
@@ -185,12 +187,12 @@ class GenericError
     /**
      * getErrors
      *
-     * @param GenericError $error
-     * @param array        $errors
+     * @param GenericErrorInterface $error
+     * @param array                 $errors
      *
      * @return array
      */
-    public function getErrors(GenericError $error, $errors = [])
+    public function getErrors(GenericErrorInterface $error, $errors = [])
     {
         array_unshift($errors, $error);
 
@@ -222,5 +224,27 @@ class GenericError
         }
 
         return $this->trace;
+    }
+
+    /**
+     * addContext
+     *
+     * @param array $context
+     *
+     * @return void
+     */
+    public function addContext(array $context)
+    {
+        $this->context = array_merge($this->context, $context);
+    }
+
+    /**
+     * getContext
+     *
+     * @return array
+     */
+    public function getContext()
+    {
+        return $this->context;
     }
 }

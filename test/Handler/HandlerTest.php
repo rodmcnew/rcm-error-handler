@@ -2,7 +2,7 @@
 /**
  * HandlerTest.php
  *
- * LongDescHere
+ *
  *
  * PHP version 5
  *

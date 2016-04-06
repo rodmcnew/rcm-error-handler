@@ -2,7 +2,7 @@
  /**
  * ConfigTest.php
  *
- * LongDescHere
+ *
  *
  * PHP version 5
  *
@@ -48,4 +48,3 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 
     }
 }
- 

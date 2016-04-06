@@ -2,7 +2,7 @@
  /**
  * ErrorListenerTest.php
  *
- * LongDescHere
+ *
  *
  * PHP version 5
  *
@@ -35,4 +35,3 @@ class LoggerErrorListenerTest extends Mocks {
         $listener->update($this->getMockMvcEvent(E_NOTICE));
     }
 }
- 

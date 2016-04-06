@@ -2,12 +2,10 @@
 
 namespace RcmErrorHandler\Format;
 
-use RcmErrorHandler\Model\GenericError;
+use RcmErrorHandler\Model\GenericErrorInterface;
 
 /**
  * Class FormatInterface
- *
- * LongDescHere
  *
  * PHP version 5
  *
@@ -21,63 +19,75 @@ use RcmErrorHandler\Model\GenericError;
  */
 interface FormatInterface
 {
-
     /**
      * getString
      *
-     * @param GenericError $error
+     * @param GenericErrorInterface $error
      *
      * @return string
      */
-    public function getString(GenericError $error);
+    public function getString(GenericErrorInterface $error);
 
     /**
      * getBasicString - no details exposed - public friendly
      *
-     * @param GenericError $error
+     * @param GenericErrorInterface $error
      *
      * @return string
      */
-    public function getBasicString(GenericError $error);
+    public function getBasicString(GenericErrorInterface $error);
 
     /**
      * getTraceString
      *
-     * @param GenericError $error
-     * @param int          $options
-     * @param int          $limit
+     * @param GenericErrorInterface $error
+     * @param int                   $options
+     * @param int                   $limit
      *
      * @return string
      */
-    public function getTraceString(GenericError $error, $options = 3, $limit = 0);
+    public function getTraceString(
+        GenericErrorInterface $error,
+        $options = 3,
+        $limit = 0
+    );
 
     /**
      * displayString
      *
-     * @param GenericError       $error
-     * @param \Zend\Mvc\MvcEvent $event
+     * @param GenericErrorInterface $error
+     * @param \Zend\Mvc\MvcEvent    $event
      *
      * @return void
      */
-    public function displayString(GenericError $error, \Zend\Mvc\MvcEvent $event);
+    public function displayString(
+        GenericErrorInterface $error,
+        \Zend\Mvc\MvcEvent $event
+    );
 
     /**
      * displayBasicString
      *
-     * @param GenericError       $error
-     * @param \Zend\Mvc\MvcEvent $event
+     * @param GenericErrorInterface $error
+     * @param \Zend\Mvc\MvcEvent    $event
      *
      * @return void
      */
-    public function displayBasicString(GenericError $error, \Zend\Mvc\MvcEvent $event);
+    public function displayBasicString(
+        GenericErrorInterface $error,
+        \Zend\Mvc\MvcEvent $event
+    );
 
     /**
      * displayTraceString
      *
-     * @param GenericError       $error
-     * @param \Zend\Mvc\MvcEvent $event
+     * @param GenericErrorInterface $error
+     * @param \Zend\Mvc\MvcEvent    $event
      *
      * @return void
      */
-    public function displayTraceString(GenericError $error, \Zend\Mvc\MvcEvent $event);
+    public function displayTraceString(
+        GenericErrorInterface $error,
+        \Zend\Mvc\MvcEvent $event
+    );
 }

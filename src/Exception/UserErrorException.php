@@ -5,8 +5,6 @@ namespace RcmErrorHandler\Exception;
 /**
  * Class UserErrorException
  *
- * LongDescHere
- *
  * PHP version 5
  *
  * @category  Reliv

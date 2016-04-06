@@ -2,7 +2,7 @@
  /**
  * BasicErrorResponseTest.php
  *
- * LongDescHere
+ *
  *
  * PHP version 5
  *
@@ -29,4 +29,3 @@ class BasicErrorResponseTest extends \PHPUnit_Framework_TestCase {
 
     }
 }
- 

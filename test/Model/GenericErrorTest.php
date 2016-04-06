@@ -1,26 +1,25 @@
 <?php
- /**
- * GenericErrorTest.php
- *
- * LongDescHere
- *
- * PHP version 5
- *
- * @category  Reliv
- * @package   RcmErrorHandler\Test\Model\BasicErrorResponse
- * @author    James Jervis <jjervis@relivinc.com>
- * @copyright 2014 Reliv International
- * @license   License.txt New BSD License
- * @version   GIT: <git_id>
- * @link      https://github.com/reliv
- */
 
 namespace RcmErrorHandler\Test\Model;
 
 use RcmErrorHandler\Model\GenericError;
+use RcmErrorHandler\Model\GenericErrorInterface;
 
 require_once __DIR__ . '/../autoload.php';
 
+/**
+ * Class GenericErrorTest
+ *
+ * PHP version 5
+ *
+ * @category  Reliv
+ * @package   RcmErrorHandler\Test\Model
+ * @author    James Jervis <jjervis@relivinc.com>
+ * @copyright 2015 Reliv International
+ * @license   License.txt
+ * @version   Release: <package_version>
+ * @link      https://github.com/reliv
+ */
 class GenericErrorTest extends \PHPUnit_Framework_TestCase {
 
     public function test(){
@@ -40,7 +39,7 @@ class GenericErrorTest extends \PHPUnit_Framework_TestCase {
             E_ERROR,
             'FILE',
             1,
-            GenericError::DEFAULT_TYPE,
+            GenericErrorInterface::DEFAULT_TYPE,
             $genericError1
         );
 
@@ -66,7 +65,7 @@ class GenericErrorTest extends \PHPUnit_Framework_TestCase {
 
         $type = $genericError->getType();
 
-        $this->assertEquals(GenericError::DEFAULT_TYPE, $type);
+        $this->assertEquals(GenericErrorInterface::DEFAULT_TYPE, $type);
 
         $previous = $genericError->getPrevious();
 
@@ -86,4 +85,3 @@ class GenericErrorTest extends \PHPUnit_Framework_TestCase {
 
     }
 }
- 

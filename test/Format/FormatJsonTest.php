@@ -2,7 +2,7 @@
  /**
  * FormatJsonTest.php
  *
- * LongDescHere
+ *
  *
  * PHP version 5
  *
@@ -55,4 +55,3 @@ class FormatJsonTest extends Mocks {
         */
     }
 }
- 

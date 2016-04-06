@@ -2,10 +2,11 @@
 
 namespace RcmErrorHandler\Log;
 
+use RcmErrorHandler\EventManager\HandlerListenerBase;
 use RcmErrorHandler\Format\FormatBase;
 use RcmErrorHandler\Model\Config;
-use RcmErrorHandler\EventManager\HandlerListenerBase;
-use RcmErrorHandler\Model\GenericError;
+use RcmErrorHandler\Model\GenericErrorInterface;
+use RcmErrorHandler\Model\GenericExceptionInterface;
 use Zend\Log\Logger;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -29,7 +30,8 @@ class LoggerErrorListener extends HandlerListenerBase
     /**
      * @var array Error numbers to method
      */
-    protected $loggerMethodMap = [
+    protected $loggerMethodMap
+        = [
             Logger::EMERG => 'emerg',
             Logger::ALERT => 'alert',
             Logger::CRIT => 'crit',
@@ -51,24 +53,27 @@ class LoggerErrorListener extends HandlerListenerBase
     protected $serviceLocator;
 
     /**
-     * @param \RcmErrorHandler\Model\Config $options
+     * LoggerErrorListener constructor.
+     *
+     * @param Config                  $options
+     * @param ServiceLocatorInterface $serviceLocator
      */
     public function __construct(
         Config $options,
         ServiceLocatorInterface $serviceLocator
     ) {
-        $this->options = $options;
+        parent::__construct($options);
         $this->serviceLocator = $serviceLocator;
     }
 
     /**
      * log
      *
-     * @param GenericError $error
+     * @param GenericErrorInterface $error
      *
      * @return void
      */
-    protected function doLog(GenericError $error)
+    protected function doLog(GenericErrorInterface $error)
     {
         $loggerConfig = $this->options->get('loggers');
 
@@ -92,23 +97,27 @@ class LoggerErrorListener extends HandlerListenerBase
     /**
      * getExtras
      *
-     * @param GenericError $error
+     * @param GenericErrorInterface $error
      *
      * @return array
      */
-    protected function getExtras(GenericError $error)
+    protected function getExtras(GenericErrorInterface $error)
     {
-
         $formatter = new FormatBase();
 
         $extras = [
             'file' => $error->getFile(),
             'line' => $error->getLine(),
             'message' => $error->getMessage(),
+            'exception' => null,
         ];
 
         if ($this->options->get('includeStacktrace', false) == true) {
             $extras['trace'] = $formatter->getTraceString($error);
+        }
+
+        if ($error instanceof GenericExceptionInterface) {
+            $extras['exception'] = $error->getException();
         }
 
         return $extras;
@@ -126,7 +135,7 @@ class LoggerErrorListener extends HandlerListenerBase
         /** @var \RcmErrorHandler\Handler\Handler $handler */
         // $handler = $event->getParam('handler');
 
-        /** @var \RcmErrorHandler\Model\GenericError $error */
+        /** @var \RcmErrorHandler\Model\GenericErrorInterface $error */
         $error = $event->getParam('error');
 
         $firstError = $error->getFirst();
@@ -140,11 +149,11 @@ class LoggerErrorListener extends HandlerListenerBase
     /**
      * prepareSummary
      *
-     * @param GenericError $error
+     * @param GenericErrorInterface $error
      *
      * @return string
      */
-    protected function prepareSummary(GenericError $error)
+    protected function prepareSummary(GenericErrorInterface $error)
     {
         return $error->getType() . ' - ' .
         $error->getMessage() . ' - ' .

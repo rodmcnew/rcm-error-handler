@@ -13,19 +13,45 @@ use RcmErrorHandler\Factory\RcmErrorHandlerFactory;
 use RcmErrorHandler\Model\Config;
 use Zend\Mvc\MvcEvent;
 
+/**
+ * Class Module
+ *
+ * PHP version 5
+ *
+ * @category  Reliv
+ * @package   RcmErrorHandler
+ * @author    James Jervis <jjervis@relivinc.com>
+ * @copyright 2015 Reliv International
+ * @license   License.txt
+ * @version   Release: <package_version>
+ * @link      https://github.com/reliv
+ */
 class Module
 {
+    /**
+     * getConfig
+     *
+     * @return mixed
+     */
     public function getConfig()
     {
         return include __DIR__ . '/../config/module.config.php';
     }
 
+    /**
+     * onBootstrap
+     *
+     * @param MvcEvent $e
+     *
+     * @return void
+     */
     public function onBootstrap(MvcEvent $e)
     {
         $application = $e->getApplication();
         $em = $application->getEventManager();
         $sm = $application->getServiceManager();
 
+        /** @var Config $config */
         $config = $sm->get('\RcmErrorHandler\Config');
 
         $factory = new RcmErrorHandlerFactory($config, $e);
@@ -53,6 +79,5 @@ class Module
         }
 
         $factory->buildListeners($em, $sm);
-
     }
 }

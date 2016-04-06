@@ -5,8 +5,6 @@ namespace RcmErrorHandler\Exception;
 /**
  * Class CompileWarningException
  *
- * LongDescHere
- *
  * PHP version 5
  *
  * @category  Reliv

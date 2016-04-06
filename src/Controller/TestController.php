@@ -1,16 +1,12 @@
 <?php
 
-
 namespace RcmErrorHandler\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-
 /**
  * Class TestController
- *
- * LongDescHere
  *
  * PHP version 5
  *

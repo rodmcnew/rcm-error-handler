@@ -5,8 +5,6 @@ namespace RcmErrorHandler\Exception;
 /**
  * Class ParseException
  *
- * LongDescHere
- *
  * PHP version 5
  *
  * @category  Reliv

@@ -31,9 +31,14 @@ class VarDumpErrorLoggerTest extends \PHPUnit_Framework_TestCase
     {
         $unit = new VarDumpErrorLogger();
 
+        $extra = [
+            'trace' => [],
+            'exception' => new \Exception('test'),
+        ];
+
         $this->assertInstanceOf(
             '\RcmErrorHandler\Log\VarDumpErrorLogger',
-            $unit->log(1, 'TEST MESSAGE')
+            $unit->log(1, 'TEST MESSAGE', $extra)
         );
     }
 }

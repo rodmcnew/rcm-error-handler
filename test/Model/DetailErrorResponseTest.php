@@ -2,7 +2,7 @@
  /**
  * BasicErrorResponseTest.php
  *
- * LongDescHere
+ *
  *
  * PHP version 5
  *
@@ -28,4 +28,3 @@ class DetailErrorResponseTest extends \PHPUnit_Framework_TestCase {
         new DetailErrorResponse('TEst', 0);
     }
 }
- 

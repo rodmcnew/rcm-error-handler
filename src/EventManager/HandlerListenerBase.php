@@ -2,10 +2,10 @@
 
 namespace RcmErrorHandler\EventManager;
 
+use \RcmErrorHandler\Model\Config;
+
 /**
  * Class HandlerListenerBase
- *
- * LongDescHere
  *
  * PHP version 5
  *
@@ -21,15 +21,17 @@ class HandlerListenerBase implements HandlerListenerInterface
 {
 
     /**
-     * @var \RcmErrorHandler\Model\Config
+     * @var Config
      */
     public $options;
 
     /**
-     * @param \RcmErrorHandler\Model\Config $options
+     * HandlerListenerBase constructor.
+     *
+     * @param Config $options
      */
     public function __construct(
-        \RcmErrorHandler\Model\Config $options
+        Config $options
     ) {
         $this->options = $options;
     }

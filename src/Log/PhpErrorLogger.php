@@ -29,7 +29,7 @@ class PhpErrorLogger extends AbstractErrorLogger
      *
      * @param  int               $priority
      * @param  mixed             $message
-     * @param  array|Traversable $extra
+     * @param  array|\Traversable $extra
      *
      * @return Logger
      */

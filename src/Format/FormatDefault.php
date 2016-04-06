@@ -2,7 +2,7 @@
 
 namespace RcmErrorHandler\Format;
 
-use RcmErrorHandler\Model\GenericError;
+use RcmErrorHandler\Model\GenericErrorInterface;
 
 /**
  * Class FormatDefault
@@ -21,16 +21,15 @@ use RcmErrorHandler\Model\GenericError;
  */
 class FormatDefault extends FormatBase
 {
-
     /**
      * getString
      *
-     * @param GenericError $error
+     * @param GenericErrorInterface $error
      *
      * @return mixed
      */
     public function getString(
-        GenericError $error
+        GenericErrorInterface $error
     ) {
         $output = '
             <table class="xdebug-error"
@@ -44,7 +43,7 @@ class FormatDefault extends FormatBase
                         <div>
                             <span style="background-color: #cc0000; color: #fce94f; font-size: x-large;">( ! )</span>
                             <span>' .
-        $error->getType() . ': ' . $error->getMessage() . '
+            $error->getType() . ': ' . $error->getMessage() . '
                             </span>
                         </div>
                         <div>File: ' . $error->getFile() . '</div>
@@ -59,20 +58,21 @@ class FormatDefault extends FormatBase
                 </tbody>
             </table>
         ';
+
         return $output;
     }
 
     /**
      * getTraceString
      *
-     * @param GenericError $error
-     * @param int          $options
-     * @param int          $limit
+     * @param GenericErrorInterface $error
+     * @param int                   $options
+     * @param int                   $limit
      *
      * @return mixed|string
      */
     public function getTraceString(
-        GenericError $error,
+        GenericErrorInterface $error,
         $options = 3,
         $limit = 0
     ) {
@@ -80,7 +80,8 @@ class FormatDefault extends FormatBase
         $backtrace = $error->getTrace($options);
         $ret = [];
 
-        $output = '
+        $output
+            = '
             <table dir="ltr"
                    border="1"
                    cellspacing="0"
@@ -128,8 +129,8 @@ class FormatDefault extends FormatBase
 
             $argStr = implode(', ', $args);
 
-
-            $output .= '
+            $output
+                .= '
                     <tr>
                         <td bgcolor="#eeeeec" align="center">' . $i . '</td>
                         <td bgcolor="#eeeeec">' .
@@ -142,7 +143,8 @@ class FormatDefault extends FormatBase
                 ';
         }
 
-        $output .= '
+        $output
+            .= '
                     </tbody>
                 </table>
             ';
