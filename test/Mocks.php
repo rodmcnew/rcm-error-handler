@@ -94,7 +94,7 @@ class Mocks extends \PHPUnit_Framework_TestCase
         );
 
         $mock = $this->getMockBuilder(
-            '\RcmErrorHandler\Model\GenericError'
+            '\RcmErrorHandler\Model\GenericErrorInterface'
         )
             ->disableOriginalConstructor()
             ->getMock();

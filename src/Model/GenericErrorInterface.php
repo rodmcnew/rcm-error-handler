@@ -18,6 +18,11 @@ namespace RcmErrorHandler\Model;
 interface GenericErrorInterface
 {
     /**
+     * string DEFAULT_TYPE
+     */
+    const DEFAULT_TYPE = 'Unknown';
+    
+    /**
      * getMessage
      *
      * @return string
@@ -94,18 +99,18 @@ interface GenericErrorInterface
     public function getTrace($options = 3, $limit = 0);
 
     /**
-     * addDetails
+     * addContext
      *
-     * @param array $details
+     * @param array $context
      *
      * @return void
      */
-    public function addDetails(array $details);
+    public function addContext(array $context);
 
     /**
-     * getDetails
+     * getContext
      *
      * @return array
      */
-    public function getDetails();
+    public function getContext();
 }

@@ -18,11 +18,6 @@ namespace RcmErrorHandler\Model;
 class GenericError implements GenericErrorInterface
 {
     /**
-     * string DEFAULT_TYPE
-     */
-    const DEFAULT_TYPE = 'Unknown';
-
-    /**
      * @var string $message
      */
     protected $message = '';
@@ -50,10 +45,10 @@ class GenericError implements GenericErrorInterface
     /**
      * @var string
      */
-    protected $type = GenericError::DEFAULT_TYPE;
+    protected $type = GenericErrorInterface::DEFAULT_TYPE;
 
     /**
-     * @var null | GenericError
+     * @var null | GenericErrorInterface
      */
     protected $previous = null;
 
@@ -63,11 +58,11 @@ class GenericError implements GenericErrorInterface
     protected $trace = null;
 
     /**
-     * These are extra details that might be helpful for troubleshooting
+     * These are extra variables and details helpful for troubleshooting
      *
      * @var array
      */
-    protected $details = [];
+    protected $context = [];
 
     /**
      * @param              $message
@@ -85,14 +80,15 @@ class GenericError implements GenericErrorInterface
         $severity = E_ERROR,
         $file = __FILE__,
         $line = __LINE__,
-        $type = GenericError::DEFAULT_TYPE,
+        $type = GenericErrorInterface::DEFAULT_TYPE,
         GenericError $previous = null,
-        $trace = null
+        $trace = null,
+        $context = []
     ) {
 
         // @todo Create setters for this logic
         if (!is_string($type)) {
-            $type = GenericError::DEFAULT_TYPE;
+            $type = GenericErrorInterface::DEFAULT_TYPE;
         }
 
         $this->message = $message;
@@ -103,6 +99,7 @@ class GenericError implements GenericErrorInterface
         $this->type = $type;
         $this->previous = $previous;
         $this->trace = $trace;
+        $this->addContext($context);
     }
 
     /**
@@ -230,24 +227,24 @@ class GenericError implements GenericErrorInterface
     }
 
     /**
-     * addDetails
+     * addContext
      *
-     * @param array $details
+     * @param array $context
      *
      * @return void
      */
-    public function addDetails(array $details)
+    public function addContext(array $context)
     {
-        $this->details = array_merge($this->details, $details);
+        $this->context = array_merge($this->context, $context);
     }
 
     /**
-     * getDetails
+     * getContext
      *
      * @return array
      */
-    public function getDetails()
+    public function getContext()
     {
-        return $this->details;
+        return $this->context;
     }
 }

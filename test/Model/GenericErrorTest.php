@@ -18,6 +18,7 @@
 namespace RcmErrorHandler\Test\Model;
 
 use RcmErrorHandler\Model\GenericError;
+use RcmErrorHandler\Model\GenericErrorInterface;
 
 require_once __DIR__ . '/../autoload.php';
 
@@ -40,7 +41,7 @@ class GenericErrorTest extends \PHPUnit_Framework_TestCase {
             E_ERROR,
             'FILE',
             1,
-            GenericError::DEFAULT_TYPE,
+            GenericErrorInterface::DEFAULT_TYPE,
             $genericError1
         );
 
@@ -66,7 +67,7 @@ class GenericErrorTest extends \PHPUnit_Framework_TestCase {
 
         $type = $genericError->getType();
 
-        $this->assertEquals(GenericError::DEFAULT_TYPE, $type);
+        $this->assertEquals(GenericErrorInterface::DEFAULT_TYPE, $type);
 
         $previous = $genericError->getPrevious();
 
@@ -86,4 +87,3 @@ class GenericErrorTest extends \PHPUnit_Framework_TestCase {
 
     }
 }
- 

@@ -2,10 +2,10 @@
 
 namespace RcmErrorHandler\Log;
 
+use RcmErrorHandler\EventManager\HandlerListenerBase;
 use RcmErrorHandler\Format\FormatBase;
 use RcmErrorHandler\Model\Config;
-use RcmErrorHandler\EventManager\HandlerListenerBase;
-use RcmErrorHandler\Model\GenericError;
+use RcmErrorHandler\Model\GenericErrorInterface;
 use Zend\Log\Logger;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -64,11 +64,11 @@ class LoggerErrorListener extends HandlerListenerBase
     /**
      * log
      *
-     * @param GenericError $error
+     * @param GenericErrorInterface $error
      *
      * @return void
      */
-    protected function doLog(GenericError $error)
+    protected function doLog(GenericErrorInterface $error)
     {
         $loggerConfig = $this->options->get('loggers');
 
@@ -92,11 +92,11 @@ class LoggerErrorListener extends HandlerListenerBase
     /**
      * getExtras
      *
-     * @param GenericError $error
+     * @param GenericErrorInterface $error
      *
      * @return array
      */
-    protected function getExtras(GenericError $error)
+    protected function getExtras(GenericErrorInterface $error)
     {
 
         $formatter = new FormatBase();
@@ -126,7 +126,7 @@ class LoggerErrorListener extends HandlerListenerBase
         /** @var \RcmErrorHandler\Handler\Handler $handler */
         // $handler = $event->getParam('handler');
 
-        /** @var \RcmErrorHandler\Model\GenericError $error */
+        /** @var \RcmErrorHandler\Model\GenericErrorInterface $error */
         $error = $event->getParam('error');
 
         $firstError = $error->getFirst();
@@ -140,11 +140,11 @@ class LoggerErrorListener extends HandlerListenerBase
     /**
      * prepareSummary
      *
-     * @param GenericError $error
+     * @param GenericErrorInterface $error
      *
      * @return string
      */
-    protected function prepareSummary(GenericError $error)
+    protected function prepareSummary(GenericErrorInterface $error)
     {
         return $error->getType() . ' - ' .
         $error->getMessage() . ' - ' .
