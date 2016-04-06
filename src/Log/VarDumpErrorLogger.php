@@ -51,4 +51,3 @@ class VarDumpErrorLogger extends AbstractErrorLogger
         return $this;
     }
 }
-
