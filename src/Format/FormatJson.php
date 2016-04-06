@@ -11,7 +11,7 @@ use Zend\View\Model\JsonModel;
 /**
  * Class FormatJson
  *
- * LongDescHere
+ *
  *
  * PHP version 5
  *

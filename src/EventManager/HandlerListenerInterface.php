@@ -5,8 +5,6 @@ namespace RcmErrorHandler\EventManager;
 /**
  * Class HandlerListenerInterface
  *
- * LongDescHere
- *
  * PHP version 5
  *
  * @category  Reliv
@@ -19,7 +17,6 @@ namespace RcmErrorHandler\EventManager;
  */
 interface HandlerListenerInterface
 {
-
     /**
      * update
      *

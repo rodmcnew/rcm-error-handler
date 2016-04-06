@@ -26,9 +26,15 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class LoggerErrorListenerFactory implements FactoryInterface
 {
 
+    /**
+     * createService
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     *
+     * @return LoggerErrorListener
+     */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-
         $config = $serviceLocator->get('\RcmErrorHandler\Config');
 
         $listenerConfigs = $config->get('listener');

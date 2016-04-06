@@ -5,8 +5,6 @@ namespace RcmErrorHandler\Model;
 /**
  * Class BasicErrorResponse
  *
- * LongDescHere
- *
  * PHP version 5
  *
  * @category  Reliv
@@ -19,11 +17,22 @@ namespace RcmErrorHandler\Model;
  */
 class BasicErrorResponse
 {
-
+    /**
+     * @var int
+     */
     public $code = 0;
 
+    /**
+     * @var string
+     */
     public $message = '';
 
+    /**
+     * BasicErrorResponse constructor.
+     *
+     * @param string $message
+     * @param int    $code
+     */
     public function __construct($message, $code = 0)
     {
         $this->code = $code;

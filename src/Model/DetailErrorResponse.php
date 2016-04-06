@@ -1,26 +1,9 @@
 <?php
- /**
- * Error.php
- *
- * LongDescHere
- *
- * PHP version 5
- *
- * @category  Reliv
- * @package   RcmErrorHandler\Model
- * @author    James Jervis <jjervis@relivinc.com>
- * @copyright 2014 Reliv International
- * @license   License.txt New BSD License
- * @version   GIT: <git_id>
- * @link      https://github.com/reliv
- */
 
 namespace RcmErrorHandler\Model;
 
  /**
  * Class Error
- *
- * LongDescHere
  *
  * PHP version 5
  *
@@ -36,16 +19,40 @@ namespace RcmErrorHandler\Model;
 class DetailErrorResponse
 {
 
+    /**
+     * @var int
+     */
     public $code = 0;
 
+    /**
+     * @var string
+     */
     public $message = '';
 
+    /**
+     * @var string
+     */
     public $file = '';
 
+    /**
+     * @var int
+     */
     public $line = 0;
 
+    /**
+     * @var array
+     */
     public $backtrace = [];
 
+    /**
+     * DetailErrorResponse constructor.
+     *
+     * @param string $message
+     * @param int    $code
+     * @param string $file
+     * @param int    $line
+     * @param array  $backtrace
+     */
     public function __construct(
         $message = 'Internal Server Error',
         $code = 0,

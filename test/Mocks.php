@@ -10,7 +10,7 @@ require_once __DIR__ . '/autoload.php';
 /**
  * Class Mocks
  *
- * LongDescHere
+ *
  *
  * PHP version 5
  *

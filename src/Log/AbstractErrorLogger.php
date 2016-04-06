@@ -37,6 +37,13 @@ abstract class AbstractErrorLogger implements LoggerInterface
             Logger::DEBUG => 'DEBUG',
         ];
 
+    protected $exceptionMethodsBlacklist
+        = [
+            'getTrace',
+            'getPrevious',
+            'getTraceAsString',
+        ];
+
     /**
      * @var array
      */
@@ -73,6 +80,7 @@ abstract class AbstractErrorLogger implements LoggerInterface
         } else {
             $priorityString = $this->priorities[Logger::INFO];
         }
+
         return $priorityString;
     }
 
@@ -90,12 +98,13 @@ abstract class AbstractErrorLogger implements LoggerInterface
         } else {
             $priority = Logger::INFO;
         }
+
         return $priority;
     }
 
     /**
-     * @param string            $message
-     * @param array|Traversable $extra
+     * @param string             $message
+     * @param array|\Traversable $extra
      *
      * @return LoggerInterface
      */
@@ -105,8 +114,8 @@ abstract class AbstractErrorLogger implements LoggerInterface
     }
 
     /**
-     * @param string            $message
-     * @param array|Traversable $extra
+     * @param string             $message
+     * @param array|\Traversable $extra
      *
      * @return LoggerInterface
      */
@@ -116,8 +125,8 @@ abstract class AbstractErrorLogger implements LoggerInterface
     }
 
     /**
-     * @param string            $message
-     * @param array|Traversable $extra
+     * @param string             $message
+     * @param array|\Traversable $extra
      *
      * @return LoggerInterface
      */
@@ -127,8 +136,8 @@ abstract class AbstractErrorLogger implements LoggerInterface
     }
 
     /**
-     * @param string            $message
-     * @param array|Traversable $extra
+     * @param string             $message
+     * @param array|\Traversable $extra
      *
      * @return LoggerInterface
      */
@@ -138,8 +147,8 @@ abstract class AbstractErrorLogger implements LoggerInterface
     }
 
     /**
-     * @param string            $message
-     * @param array|Traversable $extra
+     * @param string             $message
+     * @param array|\Traversable $extra
      *
      * @return LoggerInterface
      */
@@ -149,8 +158,8 @@ abstract class AbstractErrorLogger implements LoggerInterface
     }
 
     /**
-     * @param string            $message
-     * @param array|Traversable $extra
+     * @param string             $message
+     * @param array|\Traversable $extra
      *
      * @return LoggerInterface
      */
@@ -160,8 +169,8 @@ abstract class AbstractErrorLogger implements LoggerInterface
     }
 
     /**
-     * @param string            $message
-     * @param array|Traversable $extra
+     * @param string             $message
+     * @param array|\Traversable $extra
      *
      * @return LoggerInterface
      */
@@ -171,8 +180,8 @@ abstract class AbstractErrorLogger implements LoggerInterface
     }
 
     /**
-     * @param string            $message
-     * @param array|Traversable $extra
+     * @param string             $message
+     * @param array|\Traversable $extra
      *
      * @return LoggerInterface
      */
@@ -184,9 +193,9 @@ abstract class AbstractErrorLogger implements LoggerInterface
     /**
      * Add a message as a log entry
      *
-     * @param  int               $priority
-     * @param  mixed             $message
-     * @param  array|Traversable $extra
+     * @param  int                $priority
+     * @param  mixed              $message
+     * @param  array|\Traversable $extra
      *
      * @return Logger
      */
@@ -239,19 +248,28 @@ abstract class AbstractErrorLogger implements LoggerInterface
                 . $extra['trace'];
         }
 
+        if (isset($extra['exception'])) {
+            $description .= $lineBreak
+                . $this->prepareException($extra['exception'], $lineBreak);
+        }
+
         $includeServerDump = $this->getOption('includeServerDump', false);
 
         if (isset($_SERVER) && $includeServerDump) {
-            $description .= $lineBreak . $this->prepareArray('Server', $_SERVER, $lineBreak);
+            $description .= $lineBreak . $this->prepareArray(
+                    'Server',
+                    $_SERVER,
+                    $lineBreak
+                );
         }
 
         $includeSessionVars = $this->getOption('includeSessionVars', null);
 
         if (isset($_SESSION) && !empty($includeSessionVars)) {
             $description .= $lineBreak . $this->prepareSession(
-                $includeSessionVars,
-                $lineBreak
-            );
+                    $includeSessionVars,
+                    $lineBreak
+                );
         }
 
         return $description;
@@ -315,6 +333,36 @@ abstract class AbstractErrorLogger implements LoggerInterface
         }
 
         return $this->prepareArray('Session', $sessionVars, $lineBreak);
+    }
+
+    /**
+     * prepareException
+     *
+     * @param \Exception|null $exception
+     *
+     * @return array
+     */
+    public function prepareException($exception, $lineBreak = "\n")
+    {
+        if (!$exception instanceof \Exception) {
+            return [];
+        }
+
+        $return = [];
+        $return['exception'] = get_class($exception);
+        $methods = get_class_methods($exception);
+        foreach ($methods as $method) {
+            if (substr($method, 0, 3) === "get"
+                && !in_array(
+                    $method,
+                    $this->exceptionMethodsBlacklist
+                )
+            ) {
+                $return[$method] = $exception->$method();
+            }
+        }
+
+        return $this->prepareArray('Exception', $return, $lineBreak);
     }
 
     /**

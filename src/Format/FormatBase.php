@@ -1,30 +1,12 @@
 <?php
-/**
- * FormatBase.php
- *
- * LongDescHere
- *
- * PHP version 5
- *
- * @category  Reliv
- * @package   RcmErrorHandler\Format
- * @author    James Jervis <jjervis@relivinc.com>
- * @copyright 2014 Reliv International
- * @license   License.txt New BSD License
- * @version   GIT: <git_id>
- * @link      https://github.com/reliv
- */
 
 namespace RcmErrorHandler\Format;
 
 use RcmErrorHandler\Model\Config;
-use RcmErrorHandler\Model\GenericError;
 use RcmErrorHandler\Model\GenericErrorInterface;
 
 /**
  * Class FormatBase
- *
- * LongDescHere
  *
  * PHP version 5
  *

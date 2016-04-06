@@ -11,7 +11,7 @@ use RcmErrorHandler\Model\GenericException;
  * @codeCoverageIgnore - This has too many low level bits to test
  * Class HandlerAdapter
  *
- * LongDescHere
+ *
  *
  * PHP version 5
  *
@@ -294,7 +294,6 @@ class Handler
 
         return ($reportingLevel & $errno);
     }
-
 
     /**** EXCEPTION ****/
     /**

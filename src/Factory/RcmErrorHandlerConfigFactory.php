@@ -9,8 +9,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 /**
  * Class RcmErrorHandlerConfigFactory
  *
- * LongDescHere
- *
  * PHP version 5
  *
  * @category  Reliv
@@ -23,6 +21,13 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class RcmErrorHandlerConfigFactory implements FactoryInterface
 {
+    /**
+     * createService
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     *
+     * @return Config
+     */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $configRoot = $serviceLocator->get('Config');

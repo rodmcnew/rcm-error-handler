@@ -8,8 +8,6 @@ use RcmErrorHandler\Model\Config;
 /**
  * Class HandlerFactory
  *
- * LongDescHere
- *
  * PHP version 5
  *
  * @category  Reliv
