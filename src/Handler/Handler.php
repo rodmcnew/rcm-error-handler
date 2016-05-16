@@ -398,6 +398,7 @@ class Handler
 
     /**** EVENT EXCEPTION ****/
     /**
+     * @deprecated
      * handleEventException
      *
      * @param \Zend\Mvc\MvcEvent $event
@@ -415,9 +416,11 @@ class Handler
 
         $error = $this->buildErrorFromException($exception);
 
-        $this->notify(self::EVENT_EXCEPTION, $error);
+        throw $exception;
 
-        return $this->throwException($error, $exception);
+        //$this->notify(self::EVENT_EXCEPTION, $error);
+
+        //return $this->throwException($error, $exception);
     }
 
     /**
