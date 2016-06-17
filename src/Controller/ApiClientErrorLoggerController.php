@@ -173,4 +173,32 @@ class ApiClientErrorLoggerController extends AbstractRestfulController
 
         return $loggerConfig['options']['logJsErrors'];
     }
+
+
+    public function getList()
+    {
+        return $this->methodNotAllowed();
+    }
+
+    public function get($id)
+    {
+        return $this->methodNotAllowed();
+    }
+
+    protected function methodNotAllowed()
+    {
+        $apiMessage = new ApiMessage(
+            'Http',
+            'Method Not Allowed',
+            'Method_Not_Allowed',
+            '405',
+            true
+        );
+
+        return $this->getApiResponse(
+            null,
+            405,
+            $apiMessage
+        );
+    }
 }
