@@ -174,12 +174,21 @@ class ApiClientErrorLoggerController extends AbstractRestfulController
         return $loggerConfig['options']['logJsErrors'];
     }
 
-
+    /**
+     * Prevent ZF template errors when crawlers find this
+     *
+     * @return mixed
+     */
     public function getList()
     {
         return $this->getResponse()->setStatusCode(405);
     }
 
+    /**
+     * Prevent ZF template errors when crawlers find this
+     *
+     * @return mixed
+     */
     public function get($id)
     {
         return $this->getResponse()->setStatusCode(405);
