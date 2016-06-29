@@ -47,20 +47,25 @@ class ApiClientErrorLoggerController extends AbstractRestfulController
      * @param string $message
      * @param array  $extra
      *
-     * @return void
+     * @return bool
      */
     protected function doLog($message, $extra = [])
     {
         $loggerConfig = $this->getLoggerConfig();
         $serviceLocator = $this->getServiceLocator();
 
+        $hasLogged = false;
+
         foreach ($loggerConfig['jsLoggers'] as $serviceName) {
             if ($serviceLocator->has($serviceName)) {
                 /** @var \Zend\Log\LoggerInterface $logger */
                 $logger = $serviceLocator->get($serviceName);
                 $logger->err($message, $extra);
+                $hasLogged = true;
             }
         }
+
+        return $hasLogged;
     }
 
     /**
@@ -114,11 +119,12 @@ class ApiClientErrorLoggerController extends AbstractRestfulController
      */
     public function create($data)
     {
+        $hasLogged = false;
         if ($this->isValidRoute($data) && $this->canLogErrors()) {
-            $this->doLog($this->prepareMessage($data), $data);
+            $hasLogged = $this->doLog($this->prepareMessage($data), $data);
         }
 
-        $view = new JsonModel([]);
+        $view = new JsonModel(["success" => $hasLogged]);
 
         return $view;
     }
