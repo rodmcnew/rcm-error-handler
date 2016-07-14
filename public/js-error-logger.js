@@ -25,6 +25,7 @@ if (window.XMLHttpRequest) {
             var args = Array.prototype.slice.call(msg);
             msg = args.toString();
         }
+        var description = "located at " + window.location.href;
 
         var http = new XMLHttpRequest();
         http.open('POST', '/api/rcm-error-handler/client-error', true);
@@ -33,6 +34,7 @@ if (window.XMLHttpRequest) {
             message: msg,
             file: url,
             line: lineNo + ':' + columnNo,
+            description: description,
             type: type,
             trace: error
         }));
