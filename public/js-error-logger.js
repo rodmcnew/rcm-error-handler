@@ -119,7 +119,7 @@ if (window.XMLHttpRequest) {
 
         window.onerror = function (msg, url, lineNo, columnNo, error) {
             if (error) {
-                var trace = 'not available at '+ window.location.href;
+                var trace = 'not available';
             }
             var type = 'JsError.window.onerror';
             log(msg, url, lineNo, columnNo, trace, type);
