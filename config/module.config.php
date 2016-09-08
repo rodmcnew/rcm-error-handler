@@ -1,5 +1,14 @@
 <?php
 return [
+    'Rcm' => [
+        'HtmlIncludes' => [
+            'scripts' => [
+                'pre-config' => [
+                    '/modules/rcm-error-handler/js-error-logger.js' => []
+                ]
+            ]
+        ]
+    ],
     'RcmErrorHandler' => [
         // enable Exception overrides (false = off)
         'overrideExceptions' => false,
